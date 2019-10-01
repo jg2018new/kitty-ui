@@ -1,18 +1,99 @@
 <template>
-  
+  <div class="menu-bar-container">
+    <!-- logo -->
+    <div class="logo" :class="isCollapse?'menu-bar-collapse-width':'menu-bar-width'">
+      <img :src="this.logo" /> <div>{{isCollapse?'':sysName}}</div>
+    </div>
+    <!-- 导航菜单 -->
+    <el-menu default-active="1-1" :class="isCollapse?'menu-bar-collapse-width':'menu-bar-width'" @open="handleopen" @close="handleclose" @select="handleselect" :collapse="isCollapse">
+      <el-submenu index="1">
+        <template slot="title">
+          <i class="el-icon-location"></i>
+          <span slot="title">用户11</span>
+        </template>
+        <el-menu-item index="1-1" @click="$router.push('user')">用户1</el-menu-item>
+        <el-menu-item index="1-2" @click="$router.push('dept')">用户2</el-menu-item>
+        <el-menu-item index="1-3" @click="$router.push('role')">用户3</el-menu-item>
+        <el-menu-item index="1-4" @click="$router.push('menu')">用户4</el-menu-item>
+        <el-menu-item index="1-5" @click="$router.push('log')">用户5</el-menu-item>
+      </el-submenu>
+      <el-submenu index="2">
+        <template slot="title">
+          <i class="el-icon-location"></i>
+          <span slot="title">用户6</span>
+        </template>
+      </el-submenu>
+      <el-menu-item index="3" disabled>
+        <i class="el-icon-document"></i>
+        <span slot="title">用户7</span>
+      </el-menu-item>
+      <el-menu-item index="4">
+        <i class="el-icon-setting"></i>
+        <span slot="title">用户8</span>
+      </el-menu-item>
+    </el-menu>
+  </div>
 </template>
 
 <script>
   export default {
-    name: "MenuBar",
     data() {
-      return {}
+      return {
+        isCollapse: false,
+        sysName: "",
+        logo: "",
+      };
     },
-    components: {},
-    methods: {}
-  }
+    methods: {
+      handleopen() {
+        console.log('handleopen');
+      },
+      handleclose() {
+        console.log('handleclose');
+      },
+      handleselect(a, b) {
+        console.log('handleselect');
+      }
+    },
+    mounted() {
+      this.sysName = "I like Kitty";
+      this.logo = require("@/assets/logo.png");
+    }
+  };
 </script>
 
-<style>
-
+<style scoped lang="scss">
+  .menu-bar-container {
+    .el-menu {
+      position:absolute;
+      top: 60px;
+      bottom: 0px;
+      text-align: left;
+    }
+    .logo {
+      position:absolute;
+      top: 0px;
+      height: 60px;
+      line-height: 60px;
+      background: #4b5f6e;
+      img {
+        width: 40px;
+        height: 40px;
+        border-radius: 0px;
+        margin: 10px 10px 10px 10px;
+        float: left;
+      }
+      div {
+        font-size: 22px;
+        color: white;
+        text-align: left;
+      }
+    }
+    .menu-bar-width {
+      width: 200px;
+    }
+    .menu-bar-collapse-width {
+      width: 65px;
+    }
+  }
 </style>
