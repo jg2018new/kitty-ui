@@ -1,10 +1,8 @@
 <template>
   <div class="container" :class="$store.state.collapse?'menu-bar-collapse-width':'menu-bar-width'">
-    <el-breadcrumb separator="/" class="breadcrumb">
-      <el-breadcrumb-item v-for="item in $route.matched" :key="item.path">
-        <a href="www.baidu.com">{{ item.name }}</a>
-      </el-breadcrumb-item>
-    </el-breadcrumb>
+
+    <BreadCrumb></BreadCrumb>
+
     <transition name="fade" mode="out-in">
       <router-view></router-view>
     </transition>
@@ -12,9 +10,13 @@
 </template>
 
 <script>
+  import BreadCrumb from "@/components/BreadCrumb"
   export default {
     data() {
       return {};
+    },
+    components:{
+      BreadCrumb
     },
     methods: {},
     mounted() {
@@ -25,18 +27,14 @@
 
 <style scoped lang="scss">
   .container {
+    padding: 0 5px 5px;
     position: absolute;
     top: 60px;
+    left: 1px;
+    right: 1px;
     bottom: 0px;
-    left: 200px;
-    right: 0px;
-    .breadcrumb {
-      padding: 10px;
-      border-color: rgba(38, 86, 114, 0.2);
-      border-bottom-width: 1px;
-      border-bottom-style: solid;
-      background: rgba(138, 158, 170, 0.2);
-    }
+    // background: rgba(56, 5, 114, 0.5);
+
   }
 
   .menu-bar-width {

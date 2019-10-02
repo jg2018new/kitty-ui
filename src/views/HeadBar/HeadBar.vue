@@ -1,13 +1,13 @@
 <template>
-  <div class="container" :class="$store.state.collapse?'menu-bar-collapse-width':'menu-bar-width'">
+  <div class="container" :class="$store.state.collapse?'menu-bar-collapse-width':'menu-bar-width'" :style="{'background':$store.state.themeColor}">
     <!-- 导航菜单隐藏显示切换 -->
-    <span class="collapse-switcher" @click.prevent="collapse">
-      <i class="el-icon-menu"></i>
+    <span class="collapse-switcher" :style="{'background':$store.state.themeColor}">
+      <Hamburger :toggleClick="collapse" :isActive="$store.state.collapse"></Hamburger>
     </span>
     <!-- 导航菜单 -->
     <span class="nav-bar">
       <el-menu :default-active="activeIndex" class="el-menu-demo" text-color="#fff"
-               active-text-color="#ffd04b" mode="horizontal" @select="selectNavBar()">
+               active-text-color="#ffd04b" mode="horizontal" @select="selectNavBar()"  :style="{'background-color':$store.state.themeColor}">
         <el-menu-item index="1" @click="$router.push('/')">菜单222</el-menu-item>
         <el-menu-item index="2">菜单1</el-menu-item>
         <el-menu-item index="3">菜单2</el-menu-item>
@@ -15,7 +15,7 @@
     </span>
     <span class="tool-bar">
       <!-- 主题切换 -->
-      <ThemePicker class="theme-picker"></ThemePicker>
+      <ThemePicker class="theme-picker" @onThemeChange="onThemeChange"></ThemePicker>
       <!-- 用户信息 -->
       <el-dropdown class="user-info-dropdown" trigger="hover">
         <span class="el-dropdown-link"><img :src="this.userAvatar" /> {{username}}</span>
@@ -32,9 +32,11 @@
 <script>
   import mock from "@/mock/index.js";
   import ThemePicker from "@/components/ThemePicker"
+  import Hamburger from "@/components/Hamburger"
   export default {
     components:{
-      ThemePicker
+      ThemePicker,
+      Hamburger
     },
     data() {
       return {
@@ -50,8 +52,12 @@
 
       //折叠导航栏
       collapse: function() {
-        $store.commit('collapse');
+        this.$store.commit('collapse');
 
+      },
+      //切换主题颜色
+      onThemeChange: function(themeColor) {
+        this.$store.commit('setThemeColor', themeColor)
       },
       //退出登录
       logout: function() {

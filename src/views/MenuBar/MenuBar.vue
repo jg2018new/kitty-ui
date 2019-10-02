@@ -44,6 +44,9 @@
         logo: "",
       };
     },
+    components:{
+
+    },
     methods: {
       handleopen() {
         console.log('handleopen');
