@@ -2,41 +2,25 @@
   <div class="menu-bar-container">
     <!-- logo -->
     <div class="logo" :class="$store.state.collapse?'menu-bar-collapse-width':'menu-bar-width'">
-      <img :src="this.logo" /> <div>{{$store.state.collapse?'':sysName}}</div>
+      <img :src="this.logo"/>
+      <div>{{$store.state.collapse?'':sysName}}</div>
     </div>
     <!-- 导航菜单 -->
-    <el-menu default-active="1-1" :class="$store.state.collapse?'menu-bar-collapse-width':'menu-bar-width'" @open="handleopen"
+
+
+    <el-menu default-active="1-1" :class="$store.state.collapse?'menu-bar-collapse-width':'menu-bar-width'"
+             @open="handleopen"
              @close="handleclose" @select="handleselect" :collapse="$store.state.collapse">
-      <el-submenu index="1">
-        <template slot="title">
-          <i class="el-icon-location"></i>
-          <span slot="title">用户11</span>
-        </template>
-        <el-menu-item index="1-1" @click="$router.push('user')">用户1</el-menu-item>
-        <el-menu-item index="1-2" @click="$router.push('dept')">用户2</el-menu-item>
-        <el-menu-item index="1-3" @click="$router.push('role')">用户3</el-menu-item>
-        <el-menu-item index="1-4" @click="$router.push('menu')">用户4</el-menu-item>
-        <el-menu-item index="1-5" @click="$router.push('log')">用户5</el-menu-item>
-      </el-submenu>
-      <el-submenu index="2">
-        <template slot="title">
-          <i class="el-icon-location"></i>
-          <span slot="title">用户6</span>
-        </template>
-      </el-submenu>
-      <el-menu-item index="3" disabled>
-        <i class="el-icon-document"></i>
-        <span slot="title">用户7</span>
-      </el-menu-item>
-      <el-menu-item index="4">
-        <i class="el-icon-setting"></i>
-        <span slot="title">用户8</span>
-      </el-menu-item>
+
+      <MenuTree v-for="item in $store.state.menuTree" :key="item.menuId" :menu="item"></MenuTree>
+
     </el-menu>
   </div>
 </template>
 
 <script>
+  import MenuTree from "@/components/MenuTree"
+
   export default {
     data() {
       return {
@@ -44,8 +28,8 @@
         logo: "",
       };
     },
-    components:{
-
+    components: {
+      MenuTree
     },
     methods: {
       handleopen() {
@@ -56,11 +40,35 @@
       },
       handleselect(a, b) {
         console.log('handleselect');
+      },
+
+      /**
+       * 添加动态(菜单)路由
+       * @param {*} menuList 菜单列表
+       * @param {*} routes 递归创建的动态(菜单)路由
+       */
+
+      findMenuTree() {
+
+        // this.$api.findMenuTree()
+        //     .then(res => {
+        //         this.$store.commit('setMenuTree', res.data)
+        //       //添加动态路由
+        //       let routes=this.addDynamicMenuRoutes(res.data)
+        //       for(let i=0;i<routes.length;i++){
+        //         this.$router.options.routes[0].children.push(routes[i])
+        //       }
+        //       this.$router.addRoutes(this.$router.options.routes);
+        //     })
+        //     .catch(function (res) {
+        //       alert(res);
+        //     });
       }
     },
     mounted() {
       this.sysName = "I like Kitty";
       this.logo = require("@/assets/logo.png");
+      //this.findMenuTree();
     }
   };
 </script>
@@ -68,13 +76,13 @@
 <style scoped lang="scss">
   .menu-bar-container {
     .el-menu {
-      position:absolute;
+      position: absolute;
       top: 60px;
       bottom: 0px;
       text-align: left;
     }
     .logo {
-      position:absolute;
+      position: absolute;
       top: 0px;
       height: 60px;
       line-height: 60px;
